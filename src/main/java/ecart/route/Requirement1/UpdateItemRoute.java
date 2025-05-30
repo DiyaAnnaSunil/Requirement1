@@ -1,11 +1,13 @@
 package ecart.route.Requirement1;
 import ecart.exception.ItemNotFoundException;
 import ecart.exception.StockUpdateException;
+import ecart.model.UpdateInventoryRequest;
 import ecart.processor.Requirement1.UpdateInventoryProcessor;
 import ecart.processor.Requirement1.UpdateInventoryResponseProcessor;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.model.dataformat.JsonLibrary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -57,8 +59,9 @@ public class UpdateItemRoute extends RouteBuilder {
 
         from("direct:updateInventory")
         		.routeId("UpdateItem")
-                .unmarshal().json()
+               // .unmarshal().json()
                 .log("Received update inventory request: ${body}")
+                .unmarshal().json(JsonLibrary.Jackson, UpdateInventoryRequest.class)
                 .process(updateInventoryProcessor) // NEW: processor handles per-item logic
                 .process(updateInventoryResponseProcessor) // NEW: handles response formatting and HTTP code
                 .marshal().json(true)

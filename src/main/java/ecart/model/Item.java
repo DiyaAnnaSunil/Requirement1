@@ -1,29 +1,28 @@
 package ecart.model;
 
-import java.util.Date;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 public class Item {
-	@JsonProperty("_id")
-    private String _id;
+    @JsonProperty("_id")
+    private String id;
     private String itemName;
     private String categoryId;
-    private String lastUpdateDate;
     private ItemPrice itemPrice;
     private StockDetails stockDetails;
-    private Boolean specialProduct;
+    private boolean specialProduct;
     private List<Review> review;
+    private String lastUpdateDate;
 
-    // Getters and Setters
-    
-    public String get_id() {
-        return _id;
+    // Getters and setters for all fields
+
+    public String getId() {
+        return id;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getItemName() {
@@ -42,14 +41,6 @@ public class Item {
         this.categoryId = categoryId;
     }
 
-    public String getLastUpdateDate() {
-        return lastUpdateDate;
-    }
-
-    public void setLastUpdateDate(String lastUpdateDate) {
-        this.lastUpdateDate = lastUpdateDate;
-    }
-
     public ItemPrice getItemPrice() {
         return itemPrice;
     }
@@ -66,11 +57,11 @@ public class Item {
         this.stockDetails = stockDetails;
     }
 
-    public Boolean getSpecialProduct() {
+    public boolean isSpecialProduct() {
         return specialProduct;
     }
 
-    public void setSpecialProduct(Boolean specialProduct) {
+    public void setSpecialProduct(boolean specialProduct) {
         this.specialProduct = specialProduct;
     }
 
@@ -80,5 +71,17 @@ public class Item {
 
     public void setReview(List<Review> review) {
         this.review = review;
+    }
+
+    public String getLastUpdateDate() {
+        return lastUpdateDate;
+    }
+
+    public void setLastUpdateDate(String lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
+    }
+
+    public boolean getSpecialProduct() {
+        return specialProduct;
     }
 }

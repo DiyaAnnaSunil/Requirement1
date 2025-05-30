@@ -1,9 +1,8 @@
 package ecart.route.Requirement1;
 
+import ecart.exception.CategoryNotFoundException;
 import ecart.exception.ItemInsertException;
-
-import java.util.Map;
-
+import ecart.model.Item;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
@@ -15,45 +14,74 @@ public class PostItemRoute extends RouteBuilder {
     @Override
     public void configure() {
 
-        // Handle validation exception
+        // Handle ItemInsertException
         onException(ItemInsertException.class)
-            .handled(true)
-            .log("ItemInsertException: ${exception.message} ${exchangeProperty.existingItemId}")
-            .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
-            .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(400))
-            .setBody(simple("{ \"${exception.message} ${exchangeProperty.existingItemId}\" }"));
+                .handled(true)
+                .log("ItemInsertException: ${exception.message} ${exchangeProperty.existingItemId}")
+                .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(400))
+                .setBody(simple("{ \"${exception.message} ${exchangeProperty.existingItemId}\" }"));
 
-        // Handle generic/unexpected exceptions
+        // Handle CategoryNotFoundException
+        onException(CategoryNotFoundException.class)
+                .handled(true)
+                .log("CategoryNotFoundException: ${exception.message} ${exchangeProperty.InvalidCatId}")
+                .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(400))
+                .setBody(simple("{\"${exception.message} ${exchangeProperty.InvalidCatId}\" }"));
+
+        // Handle all other exceptions
         onException(Throwable.class)
-            .handled(true)
-            .log("Unhandled Exception: ${exception.message}")
-            .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
-            .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(500)) // 500 Internal Server Error
-            .setBody(simple("{ \"\"Internal Server Error\" }"));
+                .handled(true)
+                .log("Unhandled Exception: ${exception.message}")
+                .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(500))
+                .setBody(simple("{  \"Internal Server Error\" }"));
 
-        // REST Endpoint
+        // REST endpoint definition
         rest("/ecart/insertItem")
-            .post()
-            .consumes("application/json")
-            .produces("application/json")
-            .to("direct:insertItem");
+                .post()
+                .consumes("application/json")
+                .produces("application/json")
+                .to("direct:insertItem");
 
-        // Main Route Logic
+        // Route logic
         from("direct:insertItem")
-            .routeId("PostItemRoute")
-            .unmarshal().json(JsonLibrary.Jackson, Map.class) // Convert JSON to Map instead of POJO
-            .process("PostItemProcessor") // Call processor
-            .setBody(exchangeProperty("itemData"))
-            .setBody(simple("{\"_id\": \"${exchangeProperty.itemData['_id']}\"}"))  // Use correct Map access
-            .to("mongodb:myMongoBean?database=cart&collection=cart&operation=findOneByQuery")
-            .choice()
-            .when(body().isNotNull())
-            .setProperty("existingItemId", simple("${body['_id']}"))  // Access _id from Map
-            .throwException(new ItemInsertException("Item already exists with ID:"))
-            .end()
-            .setBody(exchangeProperty("itemData"))
-            .to("mongodb:myMongoBean?database=cart&collection=cart&operation=insert")
-            .setBody(simple("{\"message\": \"Item inserted successfully.\"}"))
-            .setHeader("Content-Type", constant("application/json"));
+                .routeId("PostItemRoute")
+
+                // Unmarshal JSON to Item POJO
+                .unmarshal().json(JsonLibrary.Jackson, Item.class)
+
+                // Process input (validation, set lastUpdateDate)
+                .process("PostItemProcessor")
+
+                // Extract itemId for use in MongoDB queries
+                .setProperty("itemId", simple("${exchangeProperty.itemData.id}"))
+
+                // Check if item already exists
+                .setBody(simple("{\"_id\": \"${exchangeProperty.itemId}\"}"))
+                .to("mongodb:myMongoBean?database=cart&collection=cart&operation=findOneByQuery")
+                .choice()
+                .when(body().isNotNull())
+                .setProperty("existingItemId", simple("${body['_id']}"))
+                .throwException(new ItemInsertException("Item already exists with ID:"))
+                .end()
+
+                // Check if categoryId is valid
+                .setBody(simple("{\"_id\": \"${exchangeProperty.itemData.categoryId}\"}"))
+                .to("mongodb:myMongoBean?database=cart&collection=categories&operation=findOneByQuery")
+                .choice()
+                .when(body().isNull())
+                .setProperty("InvalidCatId", simple("${exchangeProperty.itemData.categoryId}"))
+                .throwException(new CategoryNotFoundException("Invalid category ID provided."))
+                .end()
+
+                // Insert new item into MongoDB
+                .setBody(exchangeProperty("itemData"))
+                .to("mongodb:myMongoBean?database=cart&collection=cart&operation=insert")
+
+                // Success response
+                .setBody(constant("{ \"Item inserted successfully.\" }"))
+                .setHeader(Exchange.CONTENT_TYPE, constant("application/json"));
     }
 }
