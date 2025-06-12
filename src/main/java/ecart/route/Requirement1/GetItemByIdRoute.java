@@ -11,7 +11,6 @@ public class GetItemByIdRoute extends RouteBuilder {
 
     @Override
     public void configure() {
-
         // Handle item not found
         onException(ItemNotFoundException.class)
                 .handled(true)
@@ -19,7 +18,6 @@ public class GetItemByIdRoute extends RouteBuilder {
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(404))
                 .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
                 .setBody(simple("{ \"Item not found for ID: ${header.id}\" }"));
-
         // Handle other exceptions
         onException(Throwable.class)
                 .handled(true)

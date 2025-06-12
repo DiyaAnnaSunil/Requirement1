@@ -34,7 +34,7 @@ public class GetItemByCatIdRoute extends RouteBuilder {
             .routeId("GetItemByCategoryId")
             .setHeader("categoryId", simple("${header.categoryId}"))
             .setBody(simple("${header.categoryId}"))
-            .toD("mongodb:myMongoBean?database=cart&collection=categories&operation=findById")
+            .to("mongodb:myMongoBean?database=cart&collection=categories&operation=findById")
             .choice()
                 .when(body().isNull())
                     .throwException(new CategoryNotFoundException("Invalid categoryId: ${header.categoryId}"))

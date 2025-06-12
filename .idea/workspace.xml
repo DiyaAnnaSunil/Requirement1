@@ -5,19 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4089bfad-db0a-4b2d-b5c1-e64b56158142" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/ecart/processor/Requirement2/AsyncValidationProcessor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ecart/model/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ecart/model/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ecart/processor/Requirement1/PostItemProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ecart/processor/Requirement1/PostItemProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ecart/processor/Requirement1/UpdateInventoryProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ecart/processor/Requirement1/UpdateInventoryProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ecart/processor/Requirement1/GetItemByIdProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ecart/processor/Requirement1/GetItemByIdProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ecart/processor/Requirement2/ValidationProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ecart/route/Requirement1/GetItemByCatIdRoute.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ecart/route/Requirement1/GetItemByCatIdRoute.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ecart/route/Requirement1/GetItemByIdRoute.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ecart/route/Requirement1/GetItemByIdRoute.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ecart/route/Requirement1/PostItemRoute.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ecart/route/Requirement1/PostItemRoute.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ecart/route/Requirement1/UpdateItemRoute.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ecart/route/Requirement1/UpdateItemRoute.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ecart/model/Item.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ecart/model/Item.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ecart/processor/Requirement1/PostItemProcessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ecart/processor/Requirement1/PostItemProcessor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ecart/processor/Requirement1/UpdateInventoryProcessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ecart/processor/Requirement1/UpdateInventoryProcessor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ecart/route/Requirement2/AsyncUpdateRoute.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ecart/route/Requirement2/AsyncUpdateRoute.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ecart/processor/Requirement2/ValidationProcessor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ecart/route/Requirement1/GetItemByCatIdRoute.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ecart/route/Requirement1/GetItemByCatIdRoute.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ecart/route/Requirement1/GetItemByIdRoute.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ecart/route/Requirement1/GetItemByIdRoute.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ecart/route/Requirement1/PostItemRoute.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ecart/route/Requirement1/PostItemRoute.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ecart/route/Requirement1/UpdateItemRoute.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ecart/route/Requirement1/UpdateItemRoute.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ecart/route/Requirement2/AsyncUpdateRoute.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ecart/route/Requirement2/AsyncUpdateRoute.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,16 +49,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.ECartApplication.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "updates",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/290561/eclipse-workspace/ecart",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.ECartApplication.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;newchanges&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/290561/eclipse-workspace/ecart&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="ECartApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ecart.ECartApplication" />

@@ -100,7 +100,7 @@
 		<dependency>
     		<groupId>org.apache.camel.springboot</groupId>
     		<artifactId>camel-mongodb-starter</artifactId>
-    		<version>4.0.0</version>
+    		<version>4.11.0</version>
 		</dependency>
 
 		<!-- Jakarta JMS API (required for ActiveMQ 6.x+) -->
@@ -115,7 +115,7 @@
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-core</artifactId>
-			<version>4.10.3</version>
+			<version>4.11.0</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.apache.camel/camel-core-processor -->

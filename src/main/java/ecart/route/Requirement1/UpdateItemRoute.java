@@ -25,9 +25,6 @@ public class UpdateItemRoute extends RouteBuilder {
     	this.updateInventoryProcessor=updateInventoryProcessor;
     	this.updateInventoryResponseProcessor=updateInventoryResponseProcessor;
     }
-    
-
-   
 
     @Override
     public void configure() {

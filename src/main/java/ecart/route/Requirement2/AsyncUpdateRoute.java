@@ -1,29 +1,23 @@
 package ecart.route.Requirement2;
-import ecart.exception.InvalidItemException;
-import ecart.exception.ItemNotFoundException;
-import ecart.exception.StockDetailsNotFoundException;
-import ecart.processor.Requirement2.ValidationProcessor;
+
+import ecart.processor.Requirement2.AsyncValidationProcessor;
 import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.model.dataformat.JsonLibrary;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AsyncUpdateRoute extends RouteBuilder {
 
-    private final ValidationProcessor validationProcessor;
+    private final AsyncValidationProcessor asyncValidationProcessor;
 
-    public AsyncUpdateRoute(ValidationProcessor validationProcessor) {
-        this.validationProcessor = validationProcessor;
+    public AsyncUpdateRoute(AsyncValidationProcessor asyncValidationProcessor) {
+        this.asyncValidationProcessor = asyncValidationProcessor;
     }
 
     @Override
     public void configure() {
-        onException(InvalidItemException.class, StockDetailsNotFoundException.class, ItemNotFoundException.class)
-                .handled(true)
-                .log(LoggingLevel.WARN,"Skipping invalid item:${exception.message}");
-
-
 
         rest("/ecart")
                 .post("/asyncUpdateInventory")
@@ -33,19 +27,14 @@ public class AsyncUpdateRoute extends RouteBuilder {
 
         from("direct:asyncUpdateInventory")
                 .routeId("AsyncUpdateInventoryRoute")
-                .unmarshal().json()
-                .log("Received async update request: ${body}")
-                .split().jsonpath("$.items[*]")
-                .doTry()
-                .process(validationProcessor)
+                .unmarshal().json(JsonLibrary.Jackson, ecart.model.UpdateInventoryRequest.class)
+                .process(asyncValidationProcessor)
+                .split(body()).parallelProcessing()
                 .marshal().json(true)
                 .log("Sending valid item to ActiveMQ: ${body}")
                 .to("activemq:queue:inventory.update.queue?exchangePattern=InOnly&deliveryMode=2")
-                .doCatch(Exception.class)
-                .log(LoggingLevel.WARN,"Item skipped:${exception.message}")
-                .end()
                 .end()
                 .setBody(constant("{\"status\": \"Valid items enqueued for async processing\"}"))
-                .setHeader("Content-Type", constant("application/json"));
+                .setHeader(Exchange.CONTENT_TYPE, constant("application/json"));
     }
 }

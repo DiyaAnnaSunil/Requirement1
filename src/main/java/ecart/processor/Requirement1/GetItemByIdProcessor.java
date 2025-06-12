@@ -16,7 +16,7 @@ public class GetItemByIdProcessor implements Processor {
         // Step 1: Get item from body (MongoDB returned Document)
         Document itemDoc = exchange.getIn().getBody(Document.class);
         if (itemDoc == null) {
-            exchange.getIn().setBody(null); // Could also throw an error if you prefer
+            exchange.getIn().setBody(null);
             return;
         }
 
